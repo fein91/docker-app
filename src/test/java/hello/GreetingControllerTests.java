@@ -15,6 +15,7 @@
  */
 package hello;
 
+import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -40,7 +41,7 @@ public class GreetingControllerTests {
     public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
         this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").value("Hello, World!"));
+                .andExpect(jsonPath("$.title").value("Hello, World!"));
     }
 
     @Test
@@ -48,7 +49,14 @@ public class GreetingControllerTests {
 
         this.mockMvc.perform(get("/greeting").param("name", "Spring Community"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
+                .andExpect(jsonPath("$.title").value("Hello, Spring Community!"));
     }
+
+    @Test
+    public void test() throws Exception {
+        this.mockMvc.perform(get("/greeting/1")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("hi!"));
+    }
+
 
 }
